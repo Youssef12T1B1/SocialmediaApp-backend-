@@ -10,7 +10,10 @@
   "author": "Youssef",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^3.6.6"
+    "apollo-server": "^3.6.6",
+    "bcrypt": "^5.0.1",
+    "joi": "^17.6.0",
+    "mongoose": "^6.2.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
