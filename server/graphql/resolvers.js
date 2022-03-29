@@ -1,4 +1,5 @@
 const { registerValidation } = require("../validation/auth");
+const { hashPass } = require("../useful/auth");
 const resolvers = {
   Mutation: {
     register: async (_, args, context) => {
@@ -9,8 +10,13 @@ const resolvers = {
         throw new Error(error.details[0].message);
       }
 
-      const user = new context.models.User(input);
+      const hashedPass = await hashPass(input.password);
+      const user = new context.models.User({
+        ...input,
+        password: hashedPass,
+      });
       const newUser = await user.save();
+      return newUser;
     },
   },
 };
