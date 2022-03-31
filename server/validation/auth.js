@@ -10,3 +10,13 @@ exports.registerValidation = async (userInput) => {
   const { error } = await userSchema.validate(userInput);
   return error;
 };
+
+exports.loginValidation = async (loginInput) => {
+  const userSchema = Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required().min(6),
+  });
+
+  const { error } = await userSchema.validate(loginInput);
+  return error;
+};
