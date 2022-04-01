@@ -17,3 +17,12 @@ exports.newToken = (user) => {
   const token = jwt.sign(user, jwtSEC, { expiresIn: "1h" });
   return token;
 };
+
+exports.decryptToken = (token) => {
+  try {
+    const user = jwt.verify(token, jwtSEC);
+    return user;
+  } catch (error) {
+    return null;
+  }
+};

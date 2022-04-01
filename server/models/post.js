@@ -13,3 +13,7 @@ const postSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+const Post = mongoose.model("post", postSchema);
+
+module.exports = Post;

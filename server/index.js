@@ -3,15 +3,17 @@ const typeDefs = require("./graphql/typedefs");
 const resolvers = require("./graphql/resolvers");
 const connectDB = require("./config/db");
 const models = require("./models/main");
+const { decryptToken } = require("./useful/auth");
 connectDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context({ req }) {
-    const token = req.headers.authorization;
+    const token = req.headers.authtoken;
+    const user = decryptToken(token);
     return {
       models,
-      token,
+      user,
     };
   },
 });
