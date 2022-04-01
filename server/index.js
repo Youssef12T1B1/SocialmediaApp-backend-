@@ -7,9 +7,11 @@ connectDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context() {
+  context({ req }) {
+    const token = req.headers.authorization;
     return {
       models,
+      token,
     };
   },
 });

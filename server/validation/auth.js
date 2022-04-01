@@ -20,3 +20,12 @@ exports.loginValidation = async (loginInput) => {
   const { error } = await userSchema.validate(loginInput);
   return error;
 };
+
+exports.PostValidation = async (content) => {
+  const postSchema = Joi.object({
+    content: Joi.string().required(),
+  });
+
+  const { error } = await postSchema.validate(content);
+  return error;
+};

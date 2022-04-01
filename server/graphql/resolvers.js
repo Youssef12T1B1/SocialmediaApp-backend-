@@ -1,4 +1,8 @@
-const { registerValidation, loginValidation } = require("../validation/auth");
+const {
+  registerValidation,
+  loginValidation,
+  PostValidation,
+} = require("../validation/auth");
 const { hashPass, bcryptPass, newToken } = require("../useful/auth");
 
 const resolvers = {
@@ -38,6 +42,11 @@ const resolvers = {
         ...user._doc,
         token,
       };
+    },
+    createPost: async (_, args, context) => {
+      const { input } = args;
+      const error = await PostValidation(input);
+      if (error) throw new Error(error.details[0].message);
     },
   },
 };
