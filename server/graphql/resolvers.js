@@ -1,6 +1,5 @@
 const { registerValidation, loginValidation } = require("../validation/auth");
 const { hashPass, bcryptPass, newToken } = require("../useful/auth");
-const User = require("../models/user");
 
 const resolvers = {
   Mutation: {
@@ -24,17 +23,19 @@ const resolvers = {
       const { input } = args;
       const error = await loginValidation(input);
       if (error) throw new Error(error.details[0].message);
-      const user = User.findOne({ username: input.username });
+      const user = await context.models.User.findOne({
+        username: input.username,
+      });
       if (!user) throw new Error("No user Found");
-      if (!bcryptPass(input.password, user.password))
-        throw new Error("Auth Failed");
+      const Testpass = await bcryptPass(input.password, user.password);
+      if (!Testpass) throw new Error("Auth Failed");
 
       const token = newToken({
         username: user.username,
       });
 
       return {
-        ...user,
+        ...user._doc,
         token,
       };
     },
